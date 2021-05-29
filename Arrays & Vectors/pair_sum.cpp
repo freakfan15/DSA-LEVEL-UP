@@ -1,5 +1,4 @@
 /* Given an array and a sum. find if the array has two pairs which result i the given sum 
-https://www.udemy.com/course/cpp-data-structures-algorithms-levelup-prateek-narang/learn/lecture/24429114#overview
 */
 #include<iostream>
 #include<vector>
