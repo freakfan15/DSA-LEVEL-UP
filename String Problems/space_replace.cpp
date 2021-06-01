@@ -41,4 +41,5 @@ int main(int argc, char const *argv[])
 	cout<<input<<endl;
 
 	return 0;
+
 }
