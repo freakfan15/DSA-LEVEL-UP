@@ -18,10 +18,11 @@ class List{
 	Node* head;
 	Node* tail;
 
+
 public:
 	List():head(NULL),tail(NULL){}
 
-	Node* begin(){
+	Node* begin(){ //returns head of ll
 		return head;
 	}
 
@@ -66,7 +67,7 @@ public:
 		}
 	}
 
-	int search(int key){
+	int search(int key){ //linear search
 		Node * temp = head;
 
 		int idx = 0;
@@ -79,6 +80,75 @@ public:
 		}
 		return -1;
 	}
+
+	int searchHelper(Node* start, int key){
+		if(start==NULL){
+			return -1;
+		}	
+		if(start->data == key){
+			return 0;
+		}
+		//search on remaining part of the linked list
+		int subIdx = searchHelper(start->next, key);
+		if(subIdx==-1){
+			return -1;
+		}
+		return subIdx+1;
+	}
+
+	int recursiveSearch(int key){
+		int idx = searchHelper(head, key);
+		return idx;
+	}
+
+	//Remove element from front
+	void pop_front(){
+		Node* temp = head;
+		head = head->next;
+		temp->next = NULL;
+		delete temp;
+	}
+
+	void pop_back(){
+		Node* secondLast = head;
+		while(secondLast->next->next!=NULL){
+			secondLast = secondLast->next;
+		}
+		secondLast->next = NULL;
+		Node* temp = tail;
+		delete tail;
+		tail = temp;
+	}
+
+	//Delete element at particular pos
+	void deleteInMiddle(int pos){
+		Node* temp = head;
+		for(int jump=1; jump<=pos-1; jump++){
+			temp = temp->next;
+		}
+
+		Node* n = temp->next;
+		temp->next = n->next;
+		n->next = NULL;
+		delete n; 
+	}
+
+	void reverse(Node* &head){
+		Node * n;
+		Node* curr = head;
+		Node* prev = NULL;
+
+		while(curr!=NULL){
+			//save the next node
+			n = curr->next;
+			curr->next = prev;
+
+			//update curr and prev
+			prev = curr;
+			curr = n;
+		}
+		head = prev;
+	}
 };
 
 
@@ -90,10 +160,20 @@ int main(int argc, char const *argv[])
 	l.push_back(0);
 	l.push_back(3);
 	l.push_back(4);
+	l.push_back(5);
+	l.push_back(6);
 
-	l.inserAtMiddle(2, 2);
+	// l.inserAtMiddle(2, 2);
+
+	// l.pop_front(); //removes 1 from front
+	// l.pop_back(); //removes 4 from back
+	// l.deleteInMiddle(2);
+
+
 
 	Node* head = l.begin();
+	l.reverse(head);
+
 
 	cout<<"The elements in ll are: ";
 
@@ -102,10 +182,8 @@ int main(int argc, char const *argv[])
 		head = head->next;
 	}
 
-	cout<<endl<<"Enter the element you want to search: ";
-	int key;
-	cin>>key;
-	cout<<l.search(key)<<endl;
+	// int key = 0;
+	// cout<<endl<<l.recursiveSearch(key)<<endl;
 	
 	return 0;
 }
